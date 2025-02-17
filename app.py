@@ -1,4 +1,4 @@
-!pip install streamlit google-generativeai pyngrok
+pip install streamlit google-generativeai pyngrok
 import streamlit as st
 import google.generativeai as genai
 
