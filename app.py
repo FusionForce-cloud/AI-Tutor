@@ -1,23 +1,28 @@
-pip install google-generativeai
 import streamlit as st
 import google.generativeai as genai
-
-# Configure API key
-API_KEY = "AIzaSyCCvaPOXeNVp72lsvCRMHmFysqlj5sfCG0"
-genai.configure(api_key=API_KEY)
-
-sys_prompt = """You are an AI Code Reviewer. Users will submit Python code, and you should analyze it for potential bugs, 
-errors, or areas of improvement. Provide detailed feedback and suggest a fixed version of the code."""
-
-model = genai.GenerativeModel(model_name="model/gemini-1.5-flash",
-                              system_instruction=sys_prompt)
-
-st.title("Data Science Tutor Application")
-
-user_prompt = st.text_area("Enter your query:", placeholder="Type your query here.....")
-
-btn_click = st.button("Generate Answer")
-
-if btn_click:
-    response = model.generate_content(user_prompt)
-    st.write(response)
+# Configure Gemini AI with API Key
+genai.configure(api_key="AIzaSyDGEhqTTDGZlxYXb5pZvjROv85qmJedNb0")
+# System instruction for AI
+system_prompt = """You are a Python code reviewer. You should review the code, identify errors,
+provide improvements, and give a rating out of 5. Only accept Python code as input."""
+# Initialize Gemini AI
+gemini = genai.GenerativeModel(
+    model_name="gemini-1.5-flash",
+    system_instruction=system_prompt
+)
+# Streamlit UI
+st.title("🚀 Python Code Reviewer with Gemini AI")
+st.write("Enter your Python code snippet below, and the AI will review it.")
+# Text input for user
+user_prompt = st.text_area("📌 Enter your Python code:", height=250)
+# Button to process the code
+if st.button("🔍 Review Code"):
+    if user_prompt.strip():
+        with st.spinner("Reviewing your code... ⏳"):
+            response = gemini.generate_content(user_prompt, stream=True)
+        # Display AI Review
+        st.subheader("✅ AI Review:")
+        for chunk in response:
+            st.write(chunk.text)
+    else:
+        st.warning("⚠ Please enter a Python code snippet first.")
