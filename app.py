@@ -1,5 +1,4 @@
-venv\Scripts\activate
-pip install streamlit google-generativeai
+
 import streamlit as st
 import google.generativeai as genai
 
@@ -7,11 +6,8 @@ import google.generativeai as genai
 API_KEY = "AIzaSyCCvaPOXeNVp72lsvCRMHmFysqlj5sfCG0"
 genai.configure(api_key=API_KEY)
 
-sys_prompt = """You are a helpful AI Tutor for Data Science.
-Students will ask you doubts related to various topics in data science. You are expected to reply in as much detail as possible.
-Make sure to take examples while explaining a concept.
-In case if a student asks any question outside the data science scope, politely decline and tell
-them to ask the question from the data science domain."""
+sys_prompt = """You are an AI Code Reviewer. Users will submit Python code, and you should analyze it for potential bugs, 
+errors, or areas of improvement. Provide detailed feedback and suggest a fixed version of the code."""
 
 model = genai.GenerativeModel(model_name="model/gemini-1.5-flash",
                               system_instruction=sys_prompt)
